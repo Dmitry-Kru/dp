@@ -5,24 +5,7 @@
 {% block content %}
 <div class="row">
     <div class="col-md-8">
-        <h2 class="mb-4">Новости</h2>
-
-        {% if request.user.is_authenticated %}
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Добавить новость</h5>
-                <form method="post">
-                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ request.META.CSRF_COOKIE }}">
-                    {{ bootstrap_form(form) }}
-                    <button type="submit" class="btn btn-primary mt-3">Добавить новость</button>
-                </form>
-            </div>
-        </div>
-        {% else %}
-        <div class="alert alert-info">
-            <a href="{{ url('login') }}">Войдите</a>, чтобы добавлять новости
-        </div>
-        {% endif %}
+        <h2 class="mb-4">Последние новости</h2>
 
         <div class="table-responsive">
             <table class="table table-striped">
@@ -50,6 +33,25 @@
                 </tbody>
             </table>
         </div>
+
+        {% if request.user.is_authenticated %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Добавить новость</h5>
+                <form method="post">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ request.META.CSRF_COOKIE }}">
+                    {{ bootstrap_form(form) }}
+                    <button type="submit" class="btn btn-primary mt-3">Добавить новость</button>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <a href="{{ url('login') }}">Войдите</a>, чтобы добавлять новости
+        </div>
+        {% endif %}
+
+
     </div>
 </div>
 {% endblock %}
