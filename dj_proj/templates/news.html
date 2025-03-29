@@ -3,17 +3,16 @@
 {% block title %}Новости{% endblock %}
 
 {% block content %}
-{% set user = request.user if request else None %}
 <div class="row">
     <div class="col-md-8">
         <h2 class="mb-4">Новости</h2>
 
-        {% if user and user.is_authenticated %}
+        {% if request.user.is_authenticated %}
         <div class="card mb-4">
             <div class="card-body">
                 <h5 class="card-title">Добавить новость</h5>
                 <form method="post">
-                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ request.csrf_token }}">
+                    {% csrf_token %}
                     {{ bootstrap_form(form) }}
                     <button type="submit" class="btn btn-primary mt-3">Добавить новость</button>
                 </form>
@@ -21,7 +20,7 @@
         </div>
         {% else %}
         <div class="alert alert-info">
-            <a href="/login/">Войдите</a>, чтобы добавлять новости
+            <a href="{% url 'login' %}">Войдите</a>, чтобы добавлять новости
         </div>
         {% endif %}
 
@@ -39,11 +38,11 @@
                     {% for news in news_list %}
                     <tr>
                         <td>{{ news.user.username }}</td>
-                        <td>{{ news.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                        <td>{{ news.created_at|date:"d.m.Y H:i" }}</td>
                         <td>{{ news.title }}</td>
-                        <td>{{ news.content[:100] }}{% if news.content|length > 100 %}...{% endif %}</td>
+                        <td>{{ news.content|truncatechars:100 }}</td>
                     </tr>
-                    {% else %}
+                    {% empty %}
                     <tr>
                         <td colspan="4" class="text-center">Новостей пока нет</td>
                     </tr>

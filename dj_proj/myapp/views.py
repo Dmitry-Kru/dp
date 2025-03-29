@@ -25,19 +25,16 @@ def news(request):
         if form.is_valid():
             news_item = form.save(commit=False)
             news_item.user = request.user
-            if not news_item.created_at:  # Если дата не указана
-                news_item.created_at = timezone.now()
             news_item.save()
             return redirect('news')
     else:
         form = NewsForm()
 
-    context = {
-        'request': request,  # Передаем request в контекст
-        'form': form,        # Используем существующую форму (не создаем новую)
-        'news_list': News.objects.all().order_by('-created_at'),  # Добавил сортировку
-    }
-    return render(request, 'news.html', context)
+    return render(request, 'news.html', {
+        'form': form,
+        'news_list': News.objects.all(),
+        'request': request  # Важно передать request в контекст
+    })
 
 
 def register(request):
