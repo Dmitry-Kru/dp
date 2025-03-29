@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 
+
 def home(request):
     return render(request, 'home.html')
 

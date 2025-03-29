@@ -139,7 +139,13 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = 'auth.User'
+
+CSRF_USE_SESSIONS = False  # Должно быть False для работы с cookie
+CSRF_COOKIE_HTTPONLY = False  # Должно быть False для доступа через JS
+
+SESSION_COOKIE_SECURE = False  # True если используете HTTPS
+SESSION_COOKIE_HTTPONLY = True

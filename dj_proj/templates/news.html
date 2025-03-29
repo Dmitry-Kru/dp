@@ -3,21 +3,25 @@
 {% block title %}Новости{% endblock %}
 
 {% block content %}
-{% set user = user(request) %}
+{% set user = request.user if request else None %}
 <div class="row">
     <div class="col-md-8">
         <h2 class="mb-4">Новости</h2>
-        
-        {% if user.is_authenticated %}
+
+        {% if user and user.is_authenticated %}
         <div class="card mb-4">
             <div class="card-body">
                 <h5 class="card-title">Добавить новость</h5>
                 <form method="post">
-                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token(request) }}">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ request.csrf_token }}">
                     {{ bootstrap_form(form) }}
                     <button type="submit" class="btn btn-primary mt-3">Добавить новость</button>
                 </form>
             </div>
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <a href="/login/">Войдите</a>, чтобы добавлять новости
         </div>
         {% endif %}
 
