@@ -27,7 +27,7 @@ def environment(**options):
         'bootstrap_alert': bootstrap_alert,
         'bootstrap_button': bootstrap_button,
         'bootstrap_form': render_form,
-        'csrf_token': csrf_token,
+        'csrf_token': lambda: ' ',
         'user': lambda request: get_user_from_request(request),
     })
 
