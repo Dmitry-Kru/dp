@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Новости{% endblock %}
+
+{% block content %}
+{% set user = user(request) %}
+<div class="row">
+    <div class="col-md-8">
+        <h2 class="mb-4">Новости</h2>
+        
+        {% if user.is_authenticated %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Добавить новость</h5>
+                <form method="post">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token(request) }}">
+                    {{ bootstrap_form(form) }}
+                    <button type="submit" class="btn btn-primary mt-3">Добавить новость</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Пользователь</th>
+                        <th>Дата</th>
+                        <th>Название</th>
+                        <th>Новость</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for news in news_list %}
+                    <tr>
+                        <td>{{ news.user.username }}</td>
+                        <td>{{ news.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                        <td>{{ news.title }}</td>
+                        <td>{{ news.content[:100] }}{% if news.content|length > 100 %}...{% endif %}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">Новостей пока нет</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
